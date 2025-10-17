@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init -y)",
+      "Bash(npm install vite @vitejs/plugin-react react react-dom)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
