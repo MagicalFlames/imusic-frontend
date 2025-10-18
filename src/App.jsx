@@ -125,7 +125,8 @@ function App() {
         body: JSON.stringify({
           title: query,
           albumArtist: query
-        })
+        }),
+        credentials: 'include'
       })
 
       const data = await response.json()
