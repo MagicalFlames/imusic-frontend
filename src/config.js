@@ -10,3 +10,4 @@ export const OAUTH_CONFIG = {
     scope: 'openid'
   }
 }
+
