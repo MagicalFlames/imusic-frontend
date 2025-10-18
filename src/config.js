@@ -5,7 +5,7 @@ export const BASE_URL = "https://imusic.myweb2025.xyz"
 export const OAUTH_CONFIG = {
   codeforces: {
     clientId: 'WWK4HIA8tkZ74gcSa588SwZkucawqlFQ',
-    redirectUri: 'https://139.196.230.141:8080/redirect.html',
+    redirectUri: 'https://imusic.myweb2025.xyz:8080/redirect.html',
     authorizeUrl: 'https://codeforces.com/oauth/authorize',
     scope: 'openid'
   }
