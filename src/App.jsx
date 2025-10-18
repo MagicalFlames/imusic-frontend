@@ -125,7 +125,7 @@ function App() {
         body: JSON.stringify({
           title: query,
           albumArtist: query
-        }),
+        })
       })
 
       const data = await response.json()
