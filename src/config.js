@@ -1,5 +1,5 @@
 // API 基础 URL 配置
-export const BASE_URL = 'https://139.196.230.141'
+export const BASE_URL = 'https://139.196.230.141:8080'
 
 // 第三方登录配置
 export const OAUTH_CONFIG = {
