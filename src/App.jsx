@@ -164,12 +164,19 @@ function App() {
           }
         })
         setSongs(songs)
+
+        // 如果搜索结果为空，提示用户
+        if (songs.length === 0) {
+          showToast('未找到相关歌曲，试试其他关键词吧', 'info')
+        }
       } else {
         setSongs([])
+        showToast('未找到相关歌曲，试试其他关键词吧', 'info')
       }
     } catch (error) {
       console.error('搜索失败:', error)
       setSongs([])
+      showToast('搜索失败，请检查网络连接', 'error')
     } finally {
       setIsLoading(false)
     }
@@ -337,6 +344,7 @@ function App() {
   // 登录成功处理
   const handleLoginSuccess = (userData) => {
     setUser({ username: userData.username })
+    showToast(`欢迎回来，${userData.username}！`, 'success')
   }
 
   // 登出处理
@@ -354,6 +362,8 @@ function App() {
     if (activeTab === 'favorites') {
       setActiveTab('search')
     }
+
+    showToast('已登出', 'info')
   }
 
   useEffect(() => {
