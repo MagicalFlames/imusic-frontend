@@ -97,4 +97,5 @@ music/
 - 防止加载期间误操作
 
 ### 网址
-https://www.myweb2025.xyz/
+- web: https://www.myweb2025.xyz/
+- backfend: https://github.com/MagicalFlames/imusic-backend
