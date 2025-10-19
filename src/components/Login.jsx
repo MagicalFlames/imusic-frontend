@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BASE_URL, OAUTH_CONFIG } from '../config'
 import LoadingOverlay from './LoadingOverlay'
+import { showToast } from './Toast'
 import './Login.css'
 
 function Login({ onClose, onLoginSuccess }) {
@@ -111,7 +112,7 @@ function Login({ onClose, onLoginSuccess }) {
         setUsername('')
         setPassword('')
         setError('')
-        alert('注册成功！请使用您的账号密码登录')
+        showToast('注册成功！请使用您的账号密码登录', 'success')
       } else {
         setError(data.message?.error || '注册失败')
       }
@@ -174,10 +175,10 @@ function Login({ onClose, onLoginSuccess }) {
 
   return (
     <>
-      <div className="login-overlay" onClick={onClose}></div>
+      <div className="login-overlay" onClick={isLoading ? undefined : onClose}></div>
       <div className="login-popup">
         <LoadingOverlay isLoading={isLoading} />
-        <button className="login-close" onClick={onClose}>✕</button>
+        <button className="login-close" onClick={isLoading ? undefined : onClose} disabled={isLoading}>✕</button>
 
         <div className="login-content">
           <h2 className="login-title">

@@ -5,6 +5,7 @@ import Favorites from './components/Favorites'
 import Player from './components/Player'
 import Login from './components/Login'
 import LoadingOverlay from './components/LoadingOverlay'
+import Toast, { showToast } from './components/Toast'
 import { BASE_URL } from './config'
 import './App.css'
 
@@ -189,14 +190,14 @@ function App() {
   const addToFavorites = async (song) => {
     // 检查是否登录
     if (!user) {
-      alert('请先登录')
+      showToast('请先登录', 'warning')
       setShowLogin(true)
       return
     }
 
     // 检查是否已收藏
     if (favorites.find(fav => fav.title === song.title && fav.artist === song.artist)) {
-      alert('已经收藏过该歌曲')
+      showToast('已经收藏过该歌曲', 'info')
       return
     }
 
@@ -221,13 +222,13 @@ function App() {
       if (data.success) {
         // 添加成功，刷新收藏列表
         await fetchFavorites()
-        alert('已添加到收藏')
+        showToast('已添加到收藏', 'success')
       } else {
-        alert(data.message?.error || '添加失败')
+        showToast(data.message?.error || '添加失败', 'error')
       }
     } catch (error) {
       console.error('添加到收藏失败:', error)
-      alert('网络错误，请稍后重试')
+      showToast('网络错误，请稍后重试', 'error')
     } finally {
       setIsLoading(false)
     }
@@ -236,7 +237,7 @@ function App() {
   const removeFromFavorites = async (song) => {
     // 检查是否登录
     if (!user) {
-      alert('请先登录')
+      showToast('请先登录', 'warning')
       return
     }
 
@@ -261,13 +262,13 @@ function App() {
       if (data.success) {
         // 删除成功，刷新收藏列表
         await fetchFavorites()
-        alert('已从收藏中移除')
+        showToast('已从收藏中移除', 'success')
       } else {
-        alert(data.message?.error || '删除失败')
+        showToast(data.message?.error || '删除失败', 'error')
       }
     } catch (error) {
       console.error('删除收藏失败:', error)
-      alert('网络错误，请稍后重试')
+      showToast('网络错误，请稍后重试', 'error')
     } finally {
       setIsLoading(false)
     }
@@ -452,6 +453,7 @@ function App() {
       )}
 
       <LoadingOverlay isLoading={isLoading} />
+      <Toast />
     </div>
   )
 }
