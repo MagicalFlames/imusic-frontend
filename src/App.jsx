@@ -4,6 +4,7 @@ import SongList from './components/SongList'
 import Favorites from './components/Favorites'
 import Player from './components/Player'
 import Login from './components/Login'
+import LoadingOverlay from './components/LoadingOverlay'
 import { BASE_URL } from './config'
 import './App.css'
 
@@ -18,6 +19,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('search')
   const [showLogin, setShowLogin] = useState(false)
   const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const audioRef = useRef(null)
 
   // 页面加载时检查 LocalStorage 并恢复登录
@@ -28,6 +30,7 @@ function App() {
       const isLoggedIn = localStorage.getItem('isLoggedIn')
 
       if (isLoggedIn === 'true' && username && password) {
+        setIsLoading(true)
         try {
           // 调用登录接口恢复 session
           const response = await fetch(`${BASE_URL}/api/user/login/password`, {
@@ -55,6 +58,8 @@ function App() {
           localStorage.removeItem('username')
           localStorage.removeItem('password')
           localStorage.removeItem('isLoggedIn')
+        } finally {
+          setIsLoading(false)
         }
       }
     }
@@ -66,6 +71,7 @@ function App() {
   const fetchFavorites = async () => {
     if (!user) return
 
+    setIsLoading(true)
     try {
       const response = await fetch(`${BASE_URL}/api/song/search/insonglist`, {
         method: 'POST',
@@ -105,6 +111,8 @@ function App() {
     } catch (error) {
       console.error('获取收藏失败:', error)
       setFavorites([])
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -116,6 +124,7 @@ function App() {
   }, [activeTab, user])
 
   const handleSearch = async (query) => {
+    setIsLoading(true)
     try {
       const response = await fetch(`${BASE_URL}/api/song/search/all`, {
         method: 'POST',
@@ -160,6 +169,8 @@ function App() {
     } catch (error) {
       console.error('搜索失败:', error)
       setSongs([])
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -189,6 +200,7 @@ function App() {
       return
     }
 
+    setIsLoading(true)
     try {
       const response = await fetch(`${BASE_URL}/api/song/add/tosonglist`, {
         method: 'POST',
@@ -216,6 +228,8 @@ function App() {
     } catch (error) {
       console.error('添加到收藏失败:', error)
       alert('网络错误，请稍后重试')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -226,6 +240,7 @@ function App() {
       return
     }
 
+    setIsLoading(true)
     try {
       const response = await fetch(`${BASE_URL}/api/song/delete/fromsonglist`, {
         method: 'POST',
@@ -253,6 +268,8 @@ function App() {
     } catch (error) {
       console.error('删除收藏失败:', error)
       alert('网络错误，请稍后重试')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -433,6 +450,8 @@ function App() {
           onLoginSuccess={handleLoginSuccess}
         />
       )}
+
+      <LoadingOverlay isLoading={isLoading} />
     </div>
   )
 }

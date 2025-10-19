@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BASE_URL, OAUTH_CONFIG } from '../config'
+import LoadingOverlay from './LoadingOverlay'
 import './Login.css'
 
 function Login({ onClose, onLoginSuccess }) {
@@ -8,11 +9,13 @@ function Login({ onClose, onLoginSuccess }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [cfAuthenticated, setCfAuthenticated] = useState(false) // 标记是否已通过 CF 认证
+  const [isLoading, setIsLoading] = useState(false)
 
   // 账号密码登录
   const handlePasswordLogin = async (e) => {
     e.preventDefault()
     setError('')
+    setIsLoading(true)
 
     try {
       const response = await fetch(`${BASE_URL}/api/user/login/password`, {
@@ -40,6 +43,8 @@ function Login({ onClose, onLoginSuccess }) {
     } catch (err) {
       console.error('登录错误:', err)
       setError('网络错误，请稍后重试')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -53,6 +58,7 @@ function Login({ onClose, onLoginSuccess }) {
       return
     }
 
+    setIsLoading(true)
     try {
       // 1. 注册
       const response = await fetch(`${BASE_URL}/api/user/register`, {
@@ -112,6 +118,8 @@ function Login({ onClose, onLoginSuccess }) {
     } catch (err) {
       console.error('注册错误:', err)
       setError('网络错误，请稍后重试')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -126,6 +134,7 @@ function Login({ onClose, onLoginSuccess }) {
     const messageHandler = async (event) => {
       if (event.data.type === 'auth_code') {
         const code = event.data.code
+        setIsLoading(true)
 
         try {
           const response = await fetch(`${BASE_URL}/api/user/certificate/codeforces/?code=${encodeURIComponent(code)}`, {
@@ -151,6 +160,8 @@ function Login({ onClose, onLoginSuccess }) {
         } catch (err) {
           console.error('CodeForces 认证错误:', err)
           setError('网络错误，请稍后重试')
+        } finally {
+          setIsLoading(false)
         }
 
         // 移除事件监听
@@ -165,6 +176,7 @@ function Login({ onClose, onLoginSuccess }) {
     <>
       <div className="login-overlay" onClick={onClose}></div>
       <div className="login-popup">
+        <LoadingOverlay isLoading={isLoading} />
         <button className="login-close" onClick={onClose}>✕</button>
 
         <div className="login-content">
