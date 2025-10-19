@@ -98,4 +98,4 @@ music/
 
 ### 网址
 - web: https://www.myweb2025.xyz/
-- backfend: https://github.com/MagicalFlames/imusic-backend
+- backend: https://github.com/MagicalFlames/imusic-backend
