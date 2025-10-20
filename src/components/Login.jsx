@@ -227,7 +227,7 @@ function Login({ onClose, onLoginSuccess }) {
           {mode === 'login' && (
             <>
               <div className="login-divider">
-                <span>或使用 CodeForces 认证</span>
+                <span>没有账号？使用 CodeForces 认证来注册账号</span>
               </div>
 
               <div className="login-third-party">
