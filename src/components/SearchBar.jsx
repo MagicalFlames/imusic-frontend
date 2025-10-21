@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect} from 'react'
 import './SearchBar.css'
 
 function SearchBar({ onSearch }) {
@@ -10,8 +10,12 @@ function SearchBar({ onSearch }) {
       onSearch(query)
     }
   }
+    useEffect(() => {
+        setQuery('')  // 清空输入框的状态
+        onSearch('')
+    }, [])
 
-  return (
+    return (
     <div className="search-bar">
       <form onSubmit={handleSubmit} className="search-form">
         <div className="search-input-wrapper">
